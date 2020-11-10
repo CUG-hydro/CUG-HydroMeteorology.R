@@ -1,5 +1,5 @@
-worldmap <- map_data("world")
-worldmap[which(worldmap$long < 0),1] <- worldmap$long[which(worldmap$long < 0)]+ 360
+source("scripts/main_pkgs.R")
+
 
 #############################moistrue_flux#######################################
 ncdata <- nc_open(".\\outputted data\\IVT\\ivt_anomaly_mean.nc")

@@ -4,9 +4,9 @@
 \name{CUG.met-package}
 \alias{CUG.met}
 \alias{CUG.met-package}
-\title{CUG.met: Meteorology in CUG}
+\title{CUG.met: MeteoroHydrology in the CUG}
 \description{
-Meteorology in CUG.
+MeteoroHydrology in the CUG.
 }
 \author{
 \strong{Maintainer}: Dongdong Kong \email{kongdd.sysu@gmail.com}

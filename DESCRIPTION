@@ -1,11 +1,11 @@
 Package: CUG.met
 Type: Package
-Title: Meteorology in CUG
+Title: MeteoroHydrology in the CUG
 Version: 0.2.7
 Authors@R: c(
     person("Dongdong", "Kong", role = c("aut", "cre"), email = "kongdd.sysu@gmail.com"))
 Description: 
-    Meteorology in CUG.
+    MeteoroHydrology in the CUG.
 License: GPL-2 | file LICENSE
 Encoding: UTF-8
 LazyData: true

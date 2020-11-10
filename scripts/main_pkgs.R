@@ -23,3 +23,6 @@ library(cowplot)
 library(scales)
 
 windowsFonts(A = windowsFont("Arial"))
+
+worldmap <- map_data("world")
+worldmap[which(worldmap$long < 0), 1] <- worldmap$long[which(worldmap$long < 0)] + 360

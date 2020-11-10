@@ -40,7 +40,7 @@ tmp
 *.emf
 *.avi
 *.mp4
-
+*.pdf
 
 # Remove folds
 
@@ -51,4 +51,3 @@ notebook
 *.csv
 *.xlsx
 *.docx
-*.pdf
