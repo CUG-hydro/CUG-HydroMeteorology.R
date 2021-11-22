@@ -4,6 +4,7 @@
 
 library(ncdf4)
 library(stringr)
+library(data.table)
 library(lubridate)
 library(magrittr)
 library(plyr)
@@ -24,5 +25,6 @@ library(scales)
 
 windowsFonts(A = windowsFont("Arial"))
 
-worldmap <- map_data("world")
-worldmap[which(worldmap$long < 0), 1] <- worldmap$long[which(worldmap$long < 0)] + 360
+# worldmap <- maps::map(wrap = c(0, 360))
+worldmap <- map_data("world", wrap = c(0, 360))
+# worldmap[which(worldmap$long < 0), 1] <- worldmap$long[which(worldmap$long < 0)] + 360

@@ -21,5 +21,6 @@ This is a basic example which shows you how to solve a common problem:
 ``` r
 library(CUG.met)
 ## basic example code
-```
 
+# 广州59287 武汉57494 北京54511
+```
