@@ -1,13 +1,8 @@
-library(data.table)
-library(rtrend)
-library(plotly)
-library(dplyr)
-library(ggplot2)
-library(stringr)
+source("scripts/main_pkgs.R")
 
 df_raw = fread("data-raw/processed_57494_武汉.csv") %>%
     select(!contains(c("_D_", "Prcp_20-08", "Prcp_02"))) %>%
-    rename(Prcp = `Prcp_20-20`)
+    dplyr::rename(Prcp = `Prcp_20-20`)
 df = df_raw %>% melt(c("site", "date"))
 
 # df_raw[, .(date, Tair = Tair_avg/10)]
@@ -17,7 +12,9 @@ d_cli = df[date <= "2010-12-31" & date >= "1981-01-01",
              sd = sd(value, na.rm = TRUE)),
             .(variable, date = format(date, "2010-%m-%d") %>% as.Date())] %>%
     .[!is.na(date), ]
-
+l_cli <- list(
+    mean = d_cli %>% dcast(date ~ variable, value.var = "mean"),
+    sd = d_cli %>% dcast(date ~ variable, value.var = "sd"))
 {
     # 1. 武汉市1981-2010气候态温度
     brks_date = make_date(2010, seq(1, 12, 1))
@@ -45,7 +42,7 @@ d_cli = df[date <= "2010-12-31" & date >= "1981-01-01",
         labs(x = "Month")
         # scale_x_date(breaks = brks, date_labels = "%b %d", expand = c(1, 1)*0.01)
     # p
-    write_fig(p, "wuhan_Tair.pdf", 12, 5, use.file_show = F)
+    write_fig(p, "wuhan_Tair.pdf", 12, 5)
 }
 
 {
