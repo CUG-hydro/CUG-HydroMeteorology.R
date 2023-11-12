@@ -16,6 +16,7 @@ df_daily = df_hour[, lapply(.SD, mean, na.rm = TRUE), .(date(date)), .SDcols = c
 df_ampl = df_hour[, lapply(.SD, get_ampl), .(date(date)), .SDcols = colnames(df_hour)[-(1:2)]]
 
 date_range = c(make_date(2021, 10, 1), df_hour$date %>% max() %>% as.Date())
+date_range[2] = make_date(2021, 12, 31)
 d_box = data.table(
     x = date_range[c(1:2, 2:1)],
     y = c(-Inf, -Inf, Inf, Inf))
@@ -51,5 +52,6 @@ dat_cli = d_cli[variable == "Tair_avg", ] %>%
         plot_annotation(tag_levels = 'a', tag_prefix = "(", tag_suffix = ")") &
         theme(plot.tag.position = c(0.085, 0.97),
               plot.tag = element_text(size = 14, hjust = 0, vjust = 1))
-    write_fig(p, "wuhan_2021CW.pdf")
+    write_fig(p, "wuhan_2021CW_wholeYear.pdf")
+    # write_fig(p, "wuhan_2021CW_winter.pdf")
 }

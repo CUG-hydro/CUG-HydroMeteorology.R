@@ -1,0 +1,53 @@
+```{r}
+# source("scripts/main_pkgs.R")
+library(Ipaper)
+library(purrr)
+library(DBI)
+library(yaml)
+library(patchwork)
+library(gg.layers)
+library(ggplot2)
+
+Ipaper::set_font()
+devtools::load_all()
+```
+
+# 1. 从数据库读取数据
+
+```{r}
+app_coldwave <- function(sitename = "富阳") {
+  dbinfo <- read_yaml("~/.my.cnf")[["kong-nas"]]
+  con <- open_mariadb(dbinfo)
+  dbListTables(con)
+
+  stInfo <- tbl(con, "st_daily_met2481") |>
+    collect() |>
+    data.table()
+  st = stInfo[name == sitename, ]
+  site0 <- st$site
+
+  df_day <- read_met_daily(con, site0)
+  df_hour = read_met_daily(con, site0, "China_Mete2000_3hourly_2023")
+  
+  c(d2023_hour, d2023_day) %<-% coldwave_tidy_hourly(df_hour)
+  clim <- cal_clim(df_day)
+
+  d_clim <- clim[variable == "Tair_avg", .(date, mean)]
+  data_anorm <- merge(d2023_day, d_clim)
+
+  p <- coldwave_draw_main(d2023_day, clim)
+  f1 = glue("d:/寒潮2023_Figure1_{sitename}_clim.pdf")
+  write_fig(p, f1, 10, 5)
+
+  p_anorm <- coldwave_draw_anorm(data_anorm) + rm_xticks()
+  p_drt <- coldwave_draw_DRT(d2023_hour)
+  p <- p_anorm / p_drt + plot_layout(heights = c(0.5, 1))
+
+  f2 <- glue("d:/寒潮2023_Figure1_{sitename}_DRT.pdf")
+  write_fig(p, f2, 7, 6)
+}
+
+app_coldwave("北京")
+```
+
+# 2. 数据清洗与出图

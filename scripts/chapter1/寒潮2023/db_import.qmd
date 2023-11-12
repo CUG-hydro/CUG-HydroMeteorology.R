@@ -1,0 +1,17 @@
+```{r}
+source("scripts/main_pkgs.R")
+library(Ipaper)
+library(purrr)
+library(DBI)
+library(yaml)
+library(patchwork)
+library(gg.layers)
+library(ggplot2)
+
+Ipaper::set_font()
+```
+
+```{r}
+# df = fread("//kong-nas/CMIP6/DATA/China/ChinaMet_hourly_mete2000/data-raw/China_Mete2000_hourly_2023-2023_[20230210Z06,20231112Z03].csv")
+# # copy_to(con, df, "China_Mete2000_3hourly_2023", temporary=FALSE, overwrite=TRUE)
+```

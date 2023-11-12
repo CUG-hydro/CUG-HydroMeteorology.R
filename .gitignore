@@ -48,6 +48,6 @@ tmp
 
 # Office document
 notebook
-# *.csv
+*.csv
 *.xlsx
 *.docx

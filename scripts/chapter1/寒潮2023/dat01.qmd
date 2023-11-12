@@ -1,0 +1,39 @@
+```{r}
+dbinfo <- read_yaml("~/.my.cnf")[["kong-nas"]]
+con <- open_mariadb(dbinfo)
+dbListTables(con)
+```
+
+```{r}
+sitename = "富阳"
+stInfo <- tbl(con, "st_daily_met2481") |>
+  collect() |>
+  data.table()
+st = stInfo[name == sitename, ]
+site0 <- st$site
+
+df_day <- read_met_daily(con, site0)
+df_hour <- read_met_daily(con, site0, "China_Mete2000_3hourly_2023")
+```
+
+# 2. 数据清洗与出图
+
+```{r}
+c(d2023_hour, d2023_day) %<-% coldwave_tidy_hourly(df_hour)
+clim <- cal_clim(df_day)
+
+d_clim <- clim[variable == "Tair_avg", .(date, mean)]
+data_anorm <- merge(d2023_day, d_clim)
+```
+
+# 绘图准备
+
+```{r}
+data = merge(d2023_day, clim[variable == "Tair_avg", .(date, mean, sd)]) %>% 
+  rename(temp = TEM, thresh_clim_year=mean)
+```
+
+```{r}
+p = coldwave_flame(data)
+write_fig(p, 'd:/Rplot.pdf', 10, 5)
+```
